@@ -1,26 +1,245 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Bevy Irie — Design System (Tailwind v4)
+   Deep Forest Green · Champagne Gold · Warm Ivory
+   ============================================================ */
+
+@theme {
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman",
+    serif;
+
+  /* Forest (primary) */
+  --color-forest-50: #eff6f2;
+  --color-forest-100: #d6e8df;
+  --color-forest-200: #a9cfbd;
+  --color-forest-300: #74b096;
+  --color-forest-400: #439072;
+  --color-forest-500: #237055;
+  --color-forest-600: #185843;
+  --color-forest-700: #124535;
+  --color-forest-800: #0d3427;
+  --color-forest-900: #08241b;
+  --color-forest-950: #041712;
+
+  /* Gold (accent) */
+  --color-gold-50: #fbf6ea;
+  --color-gold-100: #f5e9cc;
+  --color-gold-200: #ebd59b;
+  --color-gold-300: #ddbe6c;
+  --color-gold-400: #d0aa4d;
+  --color-gold-500: #c6a253;
+  --color-gold-600: #a8863b;
+  --color-gold-700: #856526;
+  --color-gold-800: #6b5122;
+  --color-gold-900: #5a4320;
+
+  /* Warm neutrals */
+  --color-ivory: #fbfaf6;
+  --color-cream: #f5f2ea;
+  --color-sand: #ece6d8;
+  --color-ink: #16231d;
+
+  /* Semantic */
+  --color-background: var(--color-ivory);
+  --color-foreground: var(--color-ink);
+
+  /* Shadows — soft, layered, warm */
+  --shadow-soft: 0 1px 2px rgba(8, 36, 27, 0.04),
+    0 8px 24px -8px rgba(8, 36, 27, 0.12);
+  --shadow-card: 0 2px 4px rgba(8, 36, 27, 0.03),
+    0 18px 40px -20px rgba(8, 36, 27, 0.22);
+  --shadow-lift: 0 30px 60px -28px rgba(8, 36, 27, 0.4);
+  --shadow-gold: 0 12px 30px -12px rgba(198, 162, 83, 0.45);
+
+  /* Radii */
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+
+  /* Easing */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Named animations */
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.6s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------- Base ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: var(--color-ivory);
+  --foreground: var(--color-ink);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  border-color: color-mix(in oklab, var(--color-forest-900) 10%, transparent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold-300);
+  color: var(--color-forest-950);
+}
+
+/* Elegant, unobtrusive scrollbar */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-forest-600) 55%, transparent);
+  border-radius: 999px;
+  border: 3px solid var(--color-cream);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest-600);
+}
+
+/* Focus ring — gold, accessible */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Utilities ---------- */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .text-gold-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--color-gold-600),
+      var(--color-gold-300) 45%,
+      var(--color-gold-500)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Fine grain / noise overlay (element needs position:relative) */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+
+  .rule-gold {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold-400),
+      transparent
+    );
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-cream) 25%,
+      var(--color-sand) 37%,
+      var(--color-cream) 63%
+    );
+    background-size: 400% 100%;
+    animation: var(--animate-shimmer);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(
+      var(--color-gold-500),
+      var(--color-gold-500)
+    );
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-out-soft);
+  }
+  .link-underline:hover {
+    background-size: 100% 1.5px;
+  }
 }
