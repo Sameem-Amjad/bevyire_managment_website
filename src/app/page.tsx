@@ -6,6 +6,7 @@ import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { Stats } from "@/components/home/Stats";
 import { Testimonials } from "@/components/home/Testimonials";
 import { Compliance } from "@/components/home/Compliance";
+import { LatestInsights } from "@/components/home/LatestInsights";
 import { Faq } from "@/components/home/Faq";
 import { CtaBanner } from "@/components/ui/CtaBanner";
 import { JsonLd } from "@/components/ui/JsonLd";
@@ -24,6 +25,7 @@ export default function HomePage() {
       <Stats />
       <Testimonials />
       <Compliance />
+      <LatestInsights />
       <Faq />
       <CtaBanner />
     </>

@@ -49,6 +49,7 @@ export const site = {
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -63,6 +64,7 @@ export const footerNav: {
       { label: "Home", href: "/" },
       { label: "About Us", href: "/about" },
       { label: "Services", href: "/services" },
+      { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ],
   },

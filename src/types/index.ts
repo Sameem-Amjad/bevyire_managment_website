@@ -55,3 +55,34 @@ export interface TimelineItem {
   title: string;
   detail: string;
 }
+
+/* ---------- Blog ---------- */
+export interface BlogAuthor {
+  name: string;
+  role: string;
+  image: string;
+}
+
+export type ContentBlock =
+  | { type: "p"; text: string }
+  | { type: "h2"; text: string }
+  | { type: "h3"; text: string }
+  | { type: "ul"; items: string[] }
+  | { type: "ol"; items: string[] }
+  | { type: "quote"; text: string; cite?: string }
+  | { type: "callout"; title: string; text: string };
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  coverImage: string;
+  author: BlogAuthor;
+  /** ISO date string (YYYY-MM-DD). */
+  date: string;
+  readTime: number;
+  tags: string[];
+  featured?: boolean;
+  content: ContentBlock[];
+}
