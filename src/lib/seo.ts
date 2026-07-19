@@ -59,15 +59,19 @@ interface PageMetaInput {
   title: string;
   description: string;
   path: string;
+  /** Absolute or root-relative image URL. Defaults to the branded OG image. */
+  image?: string;
 }
 
-/** Build per-page metadata with correct canonical + OG URLs. */
+/** Build per-page metadata with correct canonical, OG image + URLs. */
 export function createMetadata({
   title,
   description,
   path,
+  image = "/opengraph-image",
 }: PageMetaInput): Metadata {
   const url = path === "/" ? site.url : `${site.url}${path}`;
+  const images = [{ url: image, width: 1200, height: 630, alt: title }];
   return {
     title,
     description,
@@ -78,11 +82,13 @@ export function createMetadata({
       url,
       siteName: site.name,
       type: "website",
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} · ${site.name}`,
       description,
+      images: [image],
     },
   };
 }

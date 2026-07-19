@@ -1,6 +1,32 @@
 import type { NavItem } from "@/types";
 
 /**
+ * Resolve the canonical site URL used for metadata, OG images, canonical
+ * tags, sitemap and JSON-LD.
+ *
+ * Priority:
+ *   1. NEXT_PUBLIC_SITE_URL      — set this to your real domain in production
+ *   2. VERCEL_PROJECT_PRODUCTION_URL — stable Vercel production alias
+ *   3. VERCEL_URL                — the current deployment's own URL
+ *   4. localhost fallback
+ *
+ * The Vercel fallbacks mean link previews (WhatsApp, X, etc.) work on the
+ * demo deployment even before a custom domain is connected.
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const prod = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (prod) return `https://${prod}`;
+
+  const deployment = process.env.VERCEL_URL;
+  if (deployment) return `https://${deployment}`;
+
+  return "https://bevyirie.com";
+}
+
+/**
  * Central site configuration — single source of truth for
  * brand, contact details, navigation and social links.
  */
@@ -8,8 +34,7 @@ export const site = {
   name: "Bevy Irie",
   legalName: "Bevy Irie Ltd",
   tagline: "Property Management You Can Trust",
-  // Update NEXT_PUBLIC_SITE_URL in production (e.g. https://bevyirie.com)
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bevyirie.com",
+  url: resolveSiteUrl(),
   description:
     "Bevy Irie helps absentee landlords protect, manage and maximise their property investments in Lagos with complete transparency, dedicated managers and fully documented reporting.",
   locale: "en_GB",
