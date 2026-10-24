@@ -7,6 +7,8 @@ import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { Analytics } from "@/components/layout/Analytics";
+import { VisitTracker } from "@/components/analytics/VisitTracker";
+import { ChromeGate } from "@/components/layout/ChromeGate";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { baseMetadata, localBusinessJsonLd, websiteJsonLd } from "@/lib/seo";
 
@@ -42,13 +44,18 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col bg-ivory">
         <JsonLd data={localBusinessJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
-        <ScrollProgress />
-        <Header />
+        <ChromeGate>
+          <ScrollProgress />
+          <Header />
+        </ChromeGate>
         <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <CookieConsent />
+        <ChromeGate>
+          <Footer />
+          <WhatsAppButton />
+          <CookieConsent />
+        </ChromeGate>
         <Analytics />
+        <VisitTracker />
       </body>
     </html>
   );

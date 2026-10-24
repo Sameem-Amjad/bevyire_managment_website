@@ -50,5 +50,8 @@ next-env.d.ts
 # logs
 *.log
 
+# analytics data (encrypted visit log — never commit)
+/.data/
+
 # misc temp
 *.local

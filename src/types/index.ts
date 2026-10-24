@@ -86,3 +86,50 @@ export interface BlogPost {
   featured?: boolean;
   content: ContentBlock[];
 }
+
+/* ---------- Analytics (private admin) ---------- */
+export type DeviceType = "mobile" | "tablet" | "desktop";
+
+export interface Visit {
+  id: string;
+  /** ISO timestamp. */
+  ts: string;
+  path: string;
+  referrer: string;
+  country: string;
+  countryCode: string;
+  city: string;
+  region: string;
+  device: DeviceType;
+  browser: string;
+  os: string;
+  language: string;
+  timezone: string;
+  /** Anonymised, non-reversible visitor fingerprint (no raw IP stored). */
+  visitor: string;
+}
+
+export interface RankItem {
+  label: string;
+  value: number;
+  meta?: string;
+}
+
+export interface AnalyticsStats {
+  totalViews: number;
+  uniqueVisitors: number;
+  todayViews: number;
+  liveWindowViews: number;
+  topPages: RankItem[];
+  devices: RankItem[];
+  browsers: RankItem[];
+  os: RankItem[];
+  countries: RankItem[];
+  cities: RankItem[];
+  referrers: RankItem[];
+  perDay: { day: string; views: number }[];
+  recent: Visit[];
+  source: "upstash" | "file" | "memory";
+  /** Count of rejected records that failed integrity verification. */
+  tampered: number;
+}
