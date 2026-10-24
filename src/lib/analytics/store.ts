@@ -41,13 +41,18 @@ function memoryStore(): Visit[] {
   return globalStore.__biVisits;
 }
 
+// Vercel's filesystem is read-only, and there the file would be missing, not
+// failing, so the dashboard would show no visits at all: use memory instead,
+// unless a writable ANALYTICS_DATA_FILE has been set.
+const readOnlyHost = Boolean(process.env.VERCEL) && !process.env.ANALYTICS_DATA_FILE;
+
 function fileUsable(): boolean {
-  return !getRedis() && !globalStore.__biFileBad;
+  return !getRedis() && !globalStore.__biFileBad && !readOnlyHost;
 }
 
 export function currentSource(): Source {
   if (getRedis()) return "upstash";
-  return globalStore.__biFileBad ? "memory" : "file";
+  return fileUsable() ? "file" : "memory";
 }
 
 export async function recordVisit(visit: Visit): Promise<void> {
