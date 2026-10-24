@@ -9,6 +9,7 @@ import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { Analytics } from "@/components/layout/Analytics";
 import { VisitTracker } from "@/components/analytics/VisitTracker";
 import { ChromeGate } from "@/components/layout/ChromeGate";
+import { MotionProvider } from "@/components/layout/MotionProvider";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { baseMetadata, localBusinessJsonLd, websiteJsonLd } from "@/lib/seo";
 
@@ -44,16 +45,19 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col bg-ivory">
         <JsonLd data={localBusinessJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
-        <ChromeGate>
-          <ScrollProgress />
-          <Header />
-        </ChromeGate>
-        <main className="flex-1">{children}</main>
-        <ChromeGate>
-          <Footer />
-          <WhatsAppButton />
-          <CookieConsent />
-        </ChromeGate>
+        <MotionProvider>
+          <ChromeGate>
+            <ScrollProgress />
+            <Header />
+          </ChromeGate>
+          {/* clip: elements that slide in from the side mustn't widen the page on phones */}
+          <main className="flex-1 overflow-x-clip">{children}</main>
+          <ChromeGate>
+            <Footer />
+            <WhatsAppButton />
+            <CookieConsent />
+          </ChromeGate>
+        </MotionProvider>
         <Analytics />
         <VisitTracker />
       </body>

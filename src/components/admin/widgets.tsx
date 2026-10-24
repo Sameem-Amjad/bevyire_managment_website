@@ -108,15 +108,18 @@ export function TrafficChart({
         {data.map((d) => (
           <div
             key={d.day}
-            className="group relative flex flex-1 flex-col items-center justify-end"
+            className="group relative flex h-full flex-1 flex-col items-center justify-end"
           >
             <span className="pointer-events-none absolute -top-7 rounded-md bg-forest-900 px-2 py-1 text-[0.7rem] font-medium text-ivory opacity-0 transition-opacity group-hover:opacity-100">
               {d.views}
             </span>
-            <div
-              className="w-full rounded-t-md bg-gradient-to-t from-forest-700 to-forest-400 transition-all hover:from-gold-600 hover:to-gold-400"
-              style={{ height: `${Math.max(4, (d.views / max) * 100)}%` }}
-            />
+            {/* the bar's % height needs a parent with a definite height */}
+            <div className="flex w-full flex-1 items-end">
+              <div
+                className="w-full rounded-t-md bg-gradient-to-t from-forest-700 to-forest-400 transition-all hover:from-gold-600 hover:to-gold-400"
+                style={{ height: `${Math.max(4, (d.views / max) * 100)}%` }}
+              />
+            </div>
             <span className="mt-2 text-[0.6rem] text-forest-800/45">
               {d.day.slice(8, 10)}
             </span>

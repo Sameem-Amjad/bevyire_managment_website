@@ -40,7 +40,8 @@ function key(): Buffer {
 export function dataFilePath(): string {
   return (
     process.env.ANALYTICS_DATA_FILE ??
-    path.join(process.cwd(), ".data", "visits.txt")
+    // turbopackIgnore: otherwise the build traces the whole project into the function
+    path.join(/*turbopackIgnore: true*/ process.cwd(), ".data", "visits.txt")
   );
 }
 
@@ -76,12 +77,12 @@ export function decryptRecord<T>(line: string): T | null {
 }
 
 async function ensureDir(): Promise<void> {
-  await fs.mkdir(path.dirname(dataFilePath()), { recursive: true });
+  await fs.mkdir(path.dirname(/*turbopackIgnore: true*/ dataFilePath()), { recursive: true });
 }
 
 export async function appendRecord(obj: unknown): Promise<void> {
   await ensureDir();
-  await fs.appendFile(dataFilePath(), encryptRecord(obj) + "\n", "utf8");
+  await fs.appendFile(/*turbopackIgnore: true*/ dataFilePath(), encryptRecord(obj) + "\n", "utf8");
 }
 
 /** Returns decrypted records newest-first, and a count of rejected (tampered) lines. */
@@ -90,7 +91,7 @@ export async function readRecords<T>(
 ): Promise<{ records: T[]; tampered: number }> {
   let raw: string;
   try {
-    raw = await fs.readFile(dataFilePath(), "utf8");
+    raw = await fs.readFile(/*turbopackIgnore: true*/ dataFilePath(), "utf8");
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ENOENT")
       return { records: [], tampered: 0 };
@@ -111,7 +112,7 @@ export async function readRecords<T>(
   if (lines.length > MAX_RECORDS * 1.2) {
     try {
       await fs.writeFile(
-        dataFilePath(),
+        /*turbopackIgnore: true*/ dataFilePath(),
         lines.slice(lines.length - MAX_RECORDS).join("\n") + "\n",
         "utf8",
       );
