@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { LoginForm } from "@/components/admin/LoginForm";
 import { isAuthenticated, usingDevPasscode } from "@/lib/admin/auth";
+import { demoMode } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Owner Access",
@@ -17,7 +18,16 @@ export default async function AdminLoginPage() {
       <div className="pointer-events-none absolute -right-32 top-0 size-[28rem] rounded-full bg-gold-500/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-32 bottom-0 size-[28rem] rounded-full bg-forest-500/20 blur-3xl" />
       <div className="relative">
-        <LoginForm devHint={usingDevPasscode() ? "bevyirie-admin" : undefined} />
+        {/* the portfolio demo's passcode is public, so show it like the dev one */}
+        <LoginForm
+          hint={
+            demoMode && process.env.ADMIN_PASSCODE
+              ? { label: "Demo", passcode: process.env.ADMIN_PASSCODE }
+              : usingDevPasscode()
+                ? { label: "Dev mode", passcode: "bevyirie-admin" }
+                : undefined
+          }
+        />
       </div>
     </div>
   );

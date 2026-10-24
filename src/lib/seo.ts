@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "./site";
+import { demoMode, site } from "./site";
 
 const titleTemplate = `%s · ${site.name}`;
 
@@ -25,12 +25,13 @@ export const baseMetadata: Metadata = {
   creator: site.legalName,
   publisher: site.legalName,
   alternates: { canonical: "/" },
+  // the portfolio demo must not compete with the real site in search
   robots: {
-    index: true,
-    follow: true,
+    index: !demoMode,
+    follow: !demoMode,
     googleBot: {
-      index: true,
-      follow: true,
+      index: !demoMode,
+      follow: !demoMode,
       "max-image-preview": "large",
       "max-video-preview": -1,
       "max-snippet": -1,

@@ -71,6 +71,13 @@ export const site = {
   founded: 2016,
 } as const;
 
+/**
+ * Public portfolio demo (NEXT_PUBLIC_DEMO_MODE=true): kept out of search
+ * engines, the owner passcode is shown on the sign-in page, and the contact
+ * form says enquiries aren't sent. Never set on the real site.
+ */
+export const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },

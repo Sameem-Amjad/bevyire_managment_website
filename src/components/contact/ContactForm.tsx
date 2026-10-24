@@ -11,6 +11,7 @@ import {
   type ContactFormValues,
 } from "@/lib/validations";
 import { submitContactForm } from "@/actions/contact";
+import { demoMode } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -240,6 +241,11 @@ export function ContactForm() {
               </a>
               .
             </p>
+            {demoMode && (
+              <p className="mt-3 rounded-lg bg-gold-500/10 px-3 py-2 text-xs text-forest-800/75">
+                Demo site: enquiries are checked as usual, but not sent anywhere.
+              </p>
+            )}
           </motion.form>
         )}
       </AnimatePresence>

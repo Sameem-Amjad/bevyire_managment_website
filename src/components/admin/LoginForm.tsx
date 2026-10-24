@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { Lock, Loader2, ShieldCheck } from "lucide-react";
 import { login, type LoginState } from "@/actions/admin";
 
-export function LoginForm({ devHint }: { devHint?: string }) {
+export function LoginForm({ hint }: { hint?: { label: string; passcode: string } }) {
   const [state, formAction, pending] = useActionState<LoginState, FormData>(
     login,
     {},
@@ -61,10 +61,10 @@ export function LoginForm({ devHint }: { devHint?: string }) {
         )}
       </button>
 
-      {devHint && (
+      {hint && (
         <p className="mt-4 rounded-lg bg-forest-950/40 px-3 py-2 text-center text-xs text-forest-100/50">
-          Dev mode — passcode is{" "}
-          <code className="text-gold-300">{devHint}</code>
+          {hint.label} — passcode is{" "}
+          <code className="text-gold-300">{hint.passcode}</code>
         </p>
       )}
     </form>
