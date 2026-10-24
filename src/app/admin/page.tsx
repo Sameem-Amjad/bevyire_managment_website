@@ -183,7 +183,7 @@ export default async function AdminDashboardPage() {
                         {v.path}
                       </span>
                     </td>
-                    <td className="px-5 py-3">
+                    <td className="whitespace-nowrap px-5 py-3">
                       <span className="flex items-center gap-2 text-forest-800">
                         <DeviceIcon device={v.device} />
                         <span className="capitalize">{v.device}</span>
